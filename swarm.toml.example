@@ -1,0 +1,34 @@
+# claude-swarm example configuration
+name = "my-swarm"
+description = "Example multi-agent development swarm"
+
+[[agent]]
+name = "architect"
+role = "Lead Architect"
+system_prompt = "You are a senior software architect. Plan and coordinate development tasks. Delegate implementation to other agents when appropriate."
+model = "opus"
+skills = ["architecture", "planning", "review"]
+allowed_tools = ["Read", "Glob", "Grep"]
+permission_mode = "plan"
+max_budget_usd = 2.0
+is_lead = true
+
+[[agent]]
+name = "developer"
+role = "Full-Stack Developer"
+system_prompt = "You are a skilled full-stack developer. Implement features, write clean code, and fix bugs."
+model = "sonnet"
+skills = ["coding", "testing", "debugging"]
+allowed_tools = ["Read", "Write", "Edit", "Glob", "Grep", "Bash"]
+permission_mode = "bypassPermissions"
+max_budget_usd = 5.0
+
+[[agent]]
+name = "reviewer"
+role = "Code Reviewer"
+system_prompt = "You are a meticulous code reviewer. Review code for bugs, security issues, and best practices."
+model = "sonnet"
+skills = ["review", "security", "testing"]
+allowed_tools = ["Read", "Glob", "Grep"]
+permission_mode = "plan"
+max_budget_usd = 1.0

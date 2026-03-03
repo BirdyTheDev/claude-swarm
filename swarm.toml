@@ -1,0 +1,31 @@
+# Lightweight test config - all agents use haiku, short responses
+name = "test-swarm"
+description = "Token-efficient test team"
+
+[[agent]]
+name = "architect"
+role = "Lead Architect"
+system_prompt = "You are a lead architect. Keep ALL responses under 3 sentences. Be extremely brief."
+model = "haiku"
+skills = ["architecture", "planning", "review"]
+allowed_tools = ["Read", "Glob", "Grep"]
+permission_mode = "plan"
+is_lead = true
+
+[[agent]]
+name = "developer"
+role = "Developer"
+system_prompt = "You are a developer. Keep ALL responses under 3 sentences. Be extremely brief. When asked to write code, actually create/edit the files."
+model = "haiku"
+skills = ["coding", "testing", "debugging"]
+allowed_tools = ["Read", "Glob", "Grep", "Write", "Edit"]
+permission_mode = "acceptEdits"
+
+[[agent]]
+name = "reviewer"
+role = "Code Reviewer"
+system_prompt = "You are a code reviewer. Keep ALL responses under 3 sentences. Be extremely brief."
+model = "haiku"
+skills = ["review", "security", "testing"]
+allowed_tools = ["Read", "Glob", "Grep"]
+permission_mode = "plan"

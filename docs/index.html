@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>claude-swarm — Multi-Agent Claude Orchestrator</title>
+  <meta name="description" content="Terminal-based multi-agent Claude orchestrator with a professional TUI dashboard. Manage multiple Claude Code instances simultaneously.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<!-- ========== NAV ========== -->
+<nav class="nav">
+  <div class="container">
+    <a href="#" class="nav-brand">
+      <span class="icon">⬡</span>
+      <span>claude-swarm</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features" class="active">Features</a></li>
+      <li><a href="#views">Views</a></li>
+      <li><a href="#keybindings">Keybindings</a></li>
+      <li><a href="#config">Configuration</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#install">Install</a></li>
+    </ul>
+    <div class="lang-switch">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('tr')">TR</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header class="hero">
+  <div class="container">
+    <h1>claude-swarm</h1>
+    <p class="tagline" data-en="Terminal-based multi-agent Claude orchestrator with a professional TUI dashboard. Parallel agents, team tasks, real-time monitoring." data-tr="Terminal tabanli coklu ajan Claude orkestratoru. Profesyonel TUI panel, paralel ajanlar, takim gorevleri, gercek zamanli izleme.">Terminal-based multi-agent Claude orchestrator with a professional TUI dashboard. Parallel agents, team tasks, real-time monitoring.</p>
+
+    <div class="hero-badges">
+      <span class="badge"><span class="dot green"></span> Rust</span>
+      <span class="badge"><span class="dot cyan"></span> ratatui TUI</span>
+      <span class="badge"><span class="dot yellow"></span> Claude Code CLI</span>
+      <span class="badge"><span class="dot green"></span> i18n EN/TR</span>
+      <span class="badge"><span class="dot cyan"></span> 3 Themes</span>
+    </div>
+
+    <div class="hero-actions">
+      <a href="#install" class="btn btn-primary">Get Started</a>
+      <a href="https://github.com/BirdyTheDev/claude-swarm" class="btn btn-secondary">GitHub Repository</a>
+    </div>
+
+    <!-- Terminal Preview -->
+    <div class="terminal-preview">
+      <div class="terminal-header">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title">claude-swarm — my-project-swarm</span>
+      </div>
+      <div class="terminal-body">
+<span class="t-cyan t-bold">⬡ my-project-swarm</span>  <span class="t-dim">│</span> <span class="t-cyan t-bold">Dashboard</span> <span class="t-dim">│ Agent Detail │ Tasks │ Logs │ Office │ Settings</span>
+<span class="t-dim">┌──────────────────┐ ┌─────────────────────┐ ┌──────────────────────────┐</span>
+<span class="t-dim">│</span> <span class="t-bold">Agents</span>           <span class="t-dim">│ │</span> <span class="t-cyan">Mini Panels</span>          <span class="t-dim">│ │</span> <span class="t-cyan t-bold">Focused Output</span>           <span class="t-dim">│</span>
+<span class="t-dim">│                  │ ├─────────────────────┤ │</span>                          <span class="t-dim">│</span>
+<span class="t-dim">│</span> <span class="t-cyan t-bold">▸</span> <span class="t-bold">architect</span> <span class="t-green">●</span>    <span class="t-dim">│ │</span> <span class="t-blue">[developer]</span> <span class="t-green">working</span> <span class="t-dim">│ │</span>  Agent 'architect' ready  <span class="t-dim">│</span>
+<span class="t-dim">│</span>   developer <span class="t-green">●</span>    <span class="t-dim">│ │</span>  &gt;_ typing...        <span class="t-dim">│ │</span>  Task created: Review     <span class="t-dim">│</span>
+<span class="t-dim">│</span>   reviewer  <span class="t-yellow">○</span>    <span class="t-dim">│ ├─────────────────────┤ │</span>  Team [Planning]: Arch..  <span class="t-dim">│</span>
+<span class="t-dim">│</span>   tester    <span class="t-dim">◌</span>    <span class="t-dim">│ │</span> <span class="t-blue">[reviewer]</span> <span class="t-yellow">idle</span>      <span class="t-dim">│ │</span>  architect → developer    <span class="t-dim">│</span>
+<span class="t-dim">│                  │ │</span>  zzz                 <span class="t-dim">│ │</span>  Agent 'dev' completed    <span class="t-dim">│</span>
+<span class="t-dim">│                  │ ├─────────────────────┤ │</span>  Settings saved           <span class="t-dim">│</span>
+<span class="t-dim">│                  │ │</span> <span class="t-blue">[tester]</span> <span class="t-dim">stopped</span>     <span class="t-dim">│ │</span>  <span class="t-red">Agent 'tester' error</span>     <span class="t-dim">│</span>
+<span class="t-dim">│                  │ │</span>  offline              <span class="t-dim">│ │</span>                          <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────┘ └─────────────────────┘ └──────────────────────────┘</span>
+<span class="t-cyan t-bold">NORMAL</span> <span class="t-dim">│ agents: 4 │ cost: $0.37 │ tasks: 2 pending, 1 active │ j/k:nav  p:prompt  :cmd  ?:help</span>
+</div>
+    </div>
+  </div>
+</header>
+
+<!-- ========== FEATURES ========== -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title" data-en="Everything you need for multi-agent orchestration" data-tr="Coklu ajan orkestrasyonu icin ihtiyaciniz olan her sey">Everything you need for multi-agent orchestration</h2>
+    <p class="section-desc" data-en="claude-swarm gives you a complete toolkit to manage, monitor, and coordinate multiple Claude Code agents working together." data-tr="claude-swarm, birlikte calisan birden fazla Claude Code ajanini yonetmek, izlemek ve koordine etmek icin eksiksiz bir arac seti sunar.">claude-swarm gives you a complete toolkit to manage, monitor, and coordinate multiple Claude Code agents working together.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3 data-en="Multi-Agent Orchestration" data-tr="Coklu Ajan Orkestrasyonu">Multi-Agent Orchestration</h3>
+        <p data-en="Run multiple Claude Code instances simultaneously. Each agent has its own role, model, skills, and permissions. An architect plans while a developer codes and a reviewer checks." data-tr="Birden fazla Claude Code ornegini esanli calistirin. Her ajanin kendi rolu, modeli, yetenekleri ve izinleri vardir. Mimar planlarken gelistirici kodlar, inceleyici kontrol eder.">Run multiple Claude Code instances simultaneously. Each agent has its own role, model, skills, and permissions. An architect plans while a developer codes and a reviewer checks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3 data-en="Team Tasks (3-Phase)" data-tr="Takim Gorevleri (3-Fazli)">Team Tasks (3-Phase)</h3>
+        <p data-en="Send team-wide tasks with :tt command. All agents collaborate through Planning → Executing → Synthesizing phases automatically." data-tr=":tt komutuyla takim genelinde gorevler gonderin. Tum ajanlar otomatik olarak Planlama → Yurutme → Sentezleme fazlarindan gecer.">Send team-wide tasks with <code>:tt</code> command. All agents collaborate through Planning → Executing → Synthesizing phases automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3 data-en="Inter-Agent Communication" data-tr="Ajanlar Arasi Iletisim">Inter-Agent Communication</h3>
+        <p data-en="Agents can send messages to each other. The Office view shows active meetings in real-time with animated cubicles and a meeting room." data-tr="Ajanlar birbirlerine mesaj gonderebilir. Ofis gorunumu aktif toplantilari gercek zamanli olarak animasyonlu kabinler ve toplanti odasiyla gosterir.">Agents can send messages to each other. The Office view shows active meetings in real-time with animated cubicles and a meeting room.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3 data-en="3 Themes — Dark, Light, High Contrast" data-tr="3 Tema — Koyu, Acik, Yuksek Kontrast">3 Themes — Dark, Light, High Contrast</h3>
+        <p data-en="Switch themes instantly from the Settings tab. Dark mode for late nights, Light for bright environments, High Contrast for accessibility." data-tr="Ayarlar sekmesinden temalari aninda degistirin. Gece icin Koyu, aydinlik ortamlar icin Acik, erisebilirlik icin Yuksek Kontrast.">Switch themes instantly from the Settings tab. Dark mode for late nights, Light for bright environments, High Contrast for accessibility.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3 data-en="i18n — English & Turkish" data-tr="i18n — Ingilizce & Turkce">i18n — English & Turkish</h3>
+        <p data-en="All log messages, UI labels, and system messages are available in English and Turkish. Switch languages instantly from Settings." data-tr="Tum log mesajlari, arayuz etiketleri ve sistem mesajlari Ingilizce ve Turkce olarak mevcuttur. Dili Ayarlardan aninda degistirin.">All log messages, UI labels, and system messages are available in English and Turkish. Switch languages instantly from Settings.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3 data-en="Structured Logs with Categories" data-tr="Kategorili Yapilandirilmis Loglar">Structured Logs with Categories</h3>
+        <p data-en="Logs are categorized with icons: 🤖 Agent, 📋 Task, 👥 Team, 💬 Communication, ⚙ System, ❌ Error. Filter by verbosity level (Minimal / Normal / Detailed)." data-tr="Loglar ikonlarla kategorize edilir: 🤖 Ajan, 📋 Gorev, 👥 Takim, 💬 Iletisim, ⚙ Sistem, ❌ Hata. Detay seviyesine gore filtreleyin (Minimal / Normal / Detayli).">Logs are categorized with icons: 🤖 Agent, 📋 Task, 👥 Team, 💬 Comm, ⚙ System, ❌ Error. Filter by verbosity level.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3 data-en="Multi-line Input with History" data-tr="Gecmisli Cok Satirli Girdi">Multi-line Input with History</h3>
+        <p data-en="Enter creates new lines, Ctrl+Enter submits. Input grows dynamically (3-10 lines). Up/Down navigates history, Ctrl+Up/Down always navigates history." data-tr="Enter yeni satir olusturur, Ctrl+Enter gonderir. Girdi dinamik olarak buyur (3-10 satir). Yukari/Asagi gecmiste gezinir.">Enter creates new lines, Ctrl+Enter submits. Input grows dynamically (3-10 lines). Up/Down navigates history.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚙️</div>
+        <h3 data-en="Persistent Settings" data-tr="Kalici Ayarlar">Persistent Settings</h3>
+        <p data-en="All preferences saved to ~/.claude-swarm/settings.toml. Language, theme, log verbosity, terminal app, history size, meeting timeout — all configurable." data-tr="Tum tercihler ~/.claude-swarm/settings.toml dosyasina kaydedilir. Dil, tema, log detayi, terminal uyg., gecmis boyutu, toplanti zamanlayici — hepsi yapilandirmali.">All preferences saved to <code>~/.claude-swarm/settings.toml</code>. Language, theme, log verbosity, and more — all configurable.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖥️</div>
+        <h3 data-en="6 View Tabs" data-tr="6 Gorunum Sekmesi">6 View Tabs</h3>
+        <p data-en="Dashboard (3-column overview), Agent Detail (full output), Tasks (lifecycle tracking), Logs (categorized), Office (meetings), Settings (preferences)." data-tr="Panel (3 sutunlu genel bakis), Ajan Detay (tam cikti), Gorevler (yasam dongusu), Loglar (kategorili), Ofis (toplantilar), Ayarlar (tercihler).">Dashboard, Agent Detail, Tasks, Logs, Office, Settings — each with a dedicated view.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VIEWS ========== -->
+<section id="views">
+  <div class="container">
+    <div class="section-label">Views</div>
+    <h2 class="section-title" data-en="Six dedicated views for every workflow" data-tr="Her is akisi icin alti ozel gorunum">Six dedicated views for every workflow</h2>
+    <p class="section-desc" data-en="Navigate between views with number keys (1-6) or Tab. Each view is designed for a specific workflow." data-tr="Sayi tuslariyla (1-6) veya Tab ile gorunumler arasinda gezinin. Her gorunum belirli bir is akisi icin tasarlanmistir.">Navigate between views with number keys (1-6) or Tab.</p>
+
+    <div class="views-tabs">
+      <button class="view-tab active" onclick="showView('dashboard')">1 Dashboard</button>
+      <button class="view-tab" onclick="showView('detail')">2 Agent Detail</button>
+      <button class="view-tab" onclick="showView('tasks')">3 Tasks</button>
+      <button class="view-tab" onclick="showView('logs')">4 Logs</button>
+      <button class="view-tab" onclick="showView('office')">5 Office</button>
+      <button class="view-tab" onclick="showView('settings')">6 Settings</button>
+    </div>
+
+    <div class="view-content active" id="view-dashboard"><span class="t-dim">┌ Agents ─────────┐┌ Mini Panels ─────────┐┌ Focused Output ──────────┐</span>
+<span class="t-dim">│</span> <span class="t-cyan t-bold">▸</span> <span class="t-bold">architect</span> <span class="t-green">●</span>    <span class="t-dim">││</span> <span class="t-blue">[developer]</span>           <span class="t-dim">││</span>  architect is planning    <span class="t-dim">│</span>
+<span class="t-dim">│</span>   developer <span class="t-green">●</span>    <span class="t-dim">││</span>  <span class="t-green">[working]</span>              <span class="t-dim">││</span>  the module structure... <span class="t-dim">│</span>
+<span class="t-dim">│</span>   reviewer  <span class="t-yellow">○</span>    <span class="t-dim">││</span>  >_ implementing auth  <span class="t-dim">││</span>                          <span class="t-dim">│</span>
+<span class="t-dim">│</span>                  <span class="t-dim">│├──────────────────────┤│</span>  Reviewing the API       <span class="t-dim">│</span>
+<span class="t-dim">│</span>                  <span class="t-dim">││</span> <span class="t-blue">[reviewer]</span>            <span class="t-dim">││</span>  surface for potential   <span class="t-dim">│</span>
+<span class="t-dim">│</span>                  <span class="t-dim">││</span>  <span class="t-yellow">[idle]</span>                 <span class="t-dim">││</span>  improvements...         <span class="t-dim">│</span>
+<span class="t-dim">│</span>                  <span class="t-dim">││</span>  zzz                   <span class="t-dim">││</span>                          <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────┘└──────────────────────┘└──────────────────────────┘</span>
+
+<span class="t-dim">3-column layout: Agent list sidebar, mini output panels (stacked), focused selected agent output</span></div>
+
+    <div class="view-content" id="view-detail"><span class="t-cyan t-bold">┌ Agent Detail: architect ──────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span> <span class="t-bold">Role:</span> Lead Architect    <span class="t-bold">Model:</span> opus    <span class="t-bold">Status:</span> <span class="t-green">Working</span>    <span class="t-bold">Cost:</span> $0.15   <span class="t-dim">│</span>
+<span class="t-dim">│</span> <span class="t-bold">Skills:</span> architecture, planning, review                                <span class="t-dim">│</span>
+<span class="t-dim">├──────────────────────────────────────────────────────────────────────┤</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  I'll analyze the project structure and create a plan.               <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-yellow">[tool: Read]</span>  src/main.rs                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-yellow">[tool: Glob]</span>  src/**/*.rs                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  The project has 12 modules organized into 4 main layers:           <span class="t-dim">│</span>
+<span class="t-dim">│</span>  1. TUI Layer - Terminal interface with 6 views                     <span class="t-dim">│</span>
+<span class="t-dim">│</span>  2. Orchestrator - Agent coordination and scheduling                <span class="t-dim">│</span>
+<span class="t-dim">│</span>  3. Agent Layer - Claude CLI subprocess management                  <span class="t-dim">│</span>
+<span class="t-dim">│</span>  4. Types - Shared data structures                                  <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">└────────────────────────────────────── Ctrl-d:down  Ctrl-u:up  g/G ──┘</span></div>
+
+    <div class="view-content" id="view-tasks"><span class="t-cyan t-bold">┌ Tasks ───────────────────────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span>  <span class="t-bold">ID</span>       <span class="t-bold">Description</span>                   <span class="t-bold">Status</span>       <span class="t-bold">Assigned To</span>    <span class="t-dim">│</span>
+<span class="t-dim">│</span>  ─────────────────────────────────────────────────────────────────── <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">01HX..</span>   Review auth module            <span class="t-green">Completed</span>    reviewer       <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">01HX..</span>   Implement login endpoint      <span class="t-blue">InProgress</span>   developer      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">01HX..</span>   Write unit tests              <span class="t-yellow">Assigned</span>     tester         <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">01HX..</span>   Design database schema        <span class="t-dim">Pending</span>      —              <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">Task lifecycle: Pending → Assigned → InProgress → Completed</span>        <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
+
+    <div class="view-content" id="view-logs"><span class="t-cyan t-bold">┌ System Logs ─────────────────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:01]</span> <span class="t-green">🤖</span> Agent 'architect' ready                               <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:02]</span> <span class="t-green">🤖</span> Agent 'developer' ready                               <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:03]</span> <span class="t-green">🤖</span> Agent 'reviewer' ready                                <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:10]</span> <span class="t-cyan">📋</span> Task created: Review authentication module             <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:11]</span> <span class="t-cyan">📋</span> Task 01HX assigned to reviewer                        <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:23:45]</span> <span class="t-green">👥</span> [Planning]: Analyze codebase                          <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:24:12]</span> <span class="t-yellow">💬</span> Message: architect → developer: Please implement...   <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:24:30]</span> <span class="t-blue">🤖</span> Agent 'developer' completed turn                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:24:55]</span> <span class="t-dim">⚙</span>  Settings saved                                        <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">[14:25:01]</span> <span class="t-red">❌</span> Agent 'tester' error: Connection refused               <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">Verbosity: Minimal (errors+team) | Normal (default) | Detailed</span>     <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
+
+    <div class="view-content" id="view-office"><span class="t-cyan t-bold">┌ Office ──────────────────────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span>  <span class="t-green">┌─ architect ─┐</span>  <span class="t-blue">┌─ developer ─┐</span>  <span class="t-yellow">┌─ reviewer ──┐</span>              <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">│ [idle]      │</span>  <span class="t-blue">│ [working]   │</span>  <span class="t-yellow">│ [meeting]   │</span>              <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">│  zzz        │</span>  <span class="t-blue">│  >_ typing  │</span>  <span class="t-yellow">│  >>mtg&lt;&lt;    │</span>              <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">└─────────────┘</span>  <span class="t-blue">└─────────────┘</span>  <span class="t-yellow">└─────────────┘</span>              <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan t-bold">┌ Meeting Room ──────────────────────────────────────────────┐</span>      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">│</span>  <span class="t-cyan t-bold">reviewer</span> &lt;-&gt; <span class="t-cyan t-bold">developer</span>                                  <span class="t-cyan">│</span>      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">│</span>  <span class="t-dim">"Discussing auth module security review"</span>                  <span class="t-cyan">│</span>      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">└─────────────────────────────────────────────────────────────┘</span>      <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">── Recent ──</span>                                                       <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">architect</span> <span class="t-dim">-></span> <span class="t-cyan">developer</span>: Review the login endpoint                  <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
+
+    <div class="view-content" id="view-settings"><span class="t-cyan t-bold">┌ Settings ────────────────────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan t-bold">▸ Language          </span> <span class="t-cyan">[English]</span>                                     <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Theme              <span class="t-dim">[Dark]</span>                                        <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Log Verbosity      <span class="t-dim">[Normal]</span>                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Terminal App       <span class="t-dim">[Terminal]</span>                                     <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    History Size       <span class="t-dim">[50]</span>                                          <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Meeting Timeout    <span class="t-dim">[10s]</span>                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-dim">Enter: toggle/edit  s: save  j/k: navigate</span>                        <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
+  </div>
+</section>
+
+<!-- ========== KEYBINDINGS ========== -->
+<section id="keybindings">
+  <div class="container">
+    <div class="section-label" data-en="Keybindings" data-tr="Tus Atamalari">Keybindings</div>
+    <h2 class="section-title" data-en="Vim-inspired keyboard shortcuts" data-tr="Vim-ilhamli klavye kisayollari">Vim-inspired keyboard shortcuts</h2>
+    <p class="section-desc" data-en="Navigate, control agents, and manage tasks without ever touching the mouse." data-tr="Mouse'a dokunmadan gezinin, ajanlari kontrol edin ve gorevleri yonetin.">Navigate, control agents, and manage tasks without ever touching the mouse.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 data-en="Navigation & Views" data-tr="Gezinme & Gorunumler">Navigation & Views</h3>
+        <table class="key-table">
+          <thead><tr><th>Key</th><th data-en="Action" data-tr="Islem">Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>j</kbd> / <kbd>↓</kbd></td><td data-en="Select next agent" data-tr="Sonraki ajani sec">Select next agent</td></tr>
+            <tr><td><kbd>k</kbd> / <kbd>↑</kbd></td><td data-en="Select previous agent" data-tr="Onceki ajani sec">Select previous agent</td></tr>
+            <tr><td><kbd>1</kbd>-<kbd>6</kbd></td><td data-en="Switch view tab" data-tr="Gorunum sekmesi degistir">Switch view tab</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td data-en="Cycle tabs" data-tr="Sekmeler arasi gez">Cycle tabs</td></tr>
+            <tr><td><kbd>Enter</kbd></td><td data-en="Agent detail / toggle setting" data-tr="Ajan detay / ayar degistir">Agent detail / toggle setting</td></tr>
+            <tr><td><kbd>?</kbd></td><td data-en="Help overlay" data-tr="Yardim paneli">Help overlay</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 data-en="Commands" data-tr="Komutlar">Commands</h3>
+        <table class="key-table">
+          <thead><tr><th>Command</th><th data-en="Action" data-tr="Islem">Action</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>:t &lt;desc&gt;</kbd></td><td data-en="Send task to selected agent" data-tr="Secili ajana gorev gonder">Send task to selected agent</td></tr>
+            <tr><td><kbd>:tt &lt;desc&gt;</kbd></td><td data-en="Team task — all agents collaborate" data-tr="Takim gorevi — tum ajanlar isbirligi yapar">Team task — all collaborate</td></tr>
+            <tr><td><kbd>:bc &lt;msg&gt;</kbd></td><td data-en="Broadcast to all agents" data-tr="Tum ajanlara yayin">Broadcast to all agents</td></tr>
+            <tr><td><kbd>:send &lt;a&gt; &lt;m&gt;</kbd></td><td data-en="Inter-agent message" data-tr="Ajanlar arasi mesaj">Inter-agent message</td></tr>
+            <tr><td><kbd>:stop &lt;a&gt;</kbd></td><td data-en="Stop an agent" data-tr="Ajani durdur">Stop an agent</td></tr>
+            <tr><td><kbd>p</kbd></td><td data-en="Prompt mode (selected agent)" data-tr="Istem modu (secili ajan)">Prompt mode (selected agent)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="margin-top: 32px;">
+      <h3 data-en="Multi-line Input" data-tr="Cok Satirli Girdi">Multi-line Input</h3>
+      <table class="key-table">
+        <thead><tr><th>Key</th><th data-en="Action" data-tr="Islem">Action</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Enter</kbd></td><td data-en="New line (in Prompt/Task mode) / Submit (in Command mode)" data-tr="Yeni satir (Istem/Gorev modunda) / Gonder (Komut modunda)">New line (Prompt/Task) / Submit (Command)</td></tr>
+          <tr><td><kbd>Ctrl+Enter</kbd></td><td data-en="Submit (always)" data-tr="Gonder (her zaman)">Submit (always)</td></tr>
+          <tr><td><kbd>↑</kbd> / <kbd>↓</kbd></td><td data-en="Move cursor / History (single line)" data-tr="Imlec hareket / Gecmis (tek satir)">Move cursor / History (single line)</td></tr>
+          <tr><td><kbd>Ctrl+↑</kbd> / <kbd>Ctrl+↓</kbd></td><td data-en="History navigate (always)" data-tr="Gecmiste gezin (her zaman)">History navigate (always)</td></tr>
+          <tr><td><kbd>Esc</kbd></td><td data-en="Cancel and return to Normal mode" data-tr="Iptal et ve Normal moda don">Cancel and return to Normal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONFIGURATION ========== -->
+<section id="config">
+  <div class="container">
+    <div class="section-label" data-en="Configuration" data-tr="Yapilandirma">Configuration</div>
+    <h2 class="section-title" data-en="Simple TOML-based configuration" data-tr="Basit TOML tabanli yapilandirma">Simple TOML-based configuration</h2>
+
+    <div class="two-col">
+      <div>
+        <h3>swarm.toml</h3>
+        <p data-en="Define your agents with roles, models, skills, and permissions." data-tr="Ajanlarinizi roller, modeller, yetenekler ve izinlerle tanimlayin.">Define your agents with roles, models, skills, and permissions.</p>
+        <pre><code><span class="t-dim"># Swarm metadata</span>
+<span class="t-purple">name</span> = <span class="t-green">"my-project-swarm"</span>
+<span class="t-purple">description</span> = <span class="t-green">"Multi-agent dev team"</span>
+
+<span class="t-dim"># Lead agent</span>
+<span class="t-yellow">[[agent]]</span>
+<span class="t-purple">name</span> = <span class="t-green">"architect"</span>
+<span class="t-purple">role</span> = <span class="t-green">"Lead Architect"</span>
+<span class="t-purple">model</span> = <span class="t-green">"opus"</span>
+<span class="t-purple">skills</span> = [<span class="t-green">"architecture"</span>, <span class="t-green">"planning"</span>]
+<span class="t-purple">is_lead</span> = <span class="t-orange">true</span>
+
+<span class="t-dim"># Worker agent</span>
+<span class="t-yellow">[[agent]]</span>
+<span class="t-purple">name</span> = <span class="t-green">"developer"</span>
+<span class="t-purple">role</span> = <span class="t-green">"Full-Stack Developer"</span>
+<span class="t-purple">model</span> = <span class="t-green">"sonnet"</span>
+<span class="t-purple">skills</span> = [<span class="t-green">"coding"</span>, <span class="t-green">"testing"</span>]
+<span class="t-purple">permission_mode</span> = <span class="t-green">"full-auto"</span></code></pre>
+      </div>
+      <div>
+        <h3>settings.toml</h3>
+        <p data-en="User preferences saved automatically to ~/.claude-swarm/settings.toml" data-tr="Kullanici tercihleri otomatik olarak ~/.claude-swarm/settings.toml dosyasina kaydedilir">User preferences saved to <code>~/.claude-swarm/settings.toml</code></p>
+        <pre><code><span class="t-purple">language</span> = <span class="t-green">"en"</span>        <span class="t-dim"># en | tr</span>
+<span class="t-purple">theme</span> = <span class="t-green">"dark"</span>          <span class="t-dim"># dark | light | highcontrast</span>
+<span class="t-purple">log_verbosity</span> = <span class="t-green">"normal"</span> <span class="t-dim"># minimal | normal | detailed</span>
+<span class="t-purple">terminal_app</span> = <span class="t-green">"Terminal"</span>
+<span class="t-purple">input_history_size</span> = <span class="t-orange">50</span>
+<span class="t-purple">meeting_timeout_secs</span> = <span class="t-orange">10</span></code></pre>
+
+        <h3 style="margin-top: 32px;" data-en="Agent Config Fields" data-tr="Ajan Yapilandirma Alanlari">Agent Config Fields</h3>
+        <table class="key-table">
+          <thead><tr><th>Field</th><th data-en="Description" data-tr="Aciklama">Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td data-en="Unique agent ID (required)" data-tr="Benzersiz ajan kimlik (zorunlu)">Unique agent ID (required)</td></tr>
+            <tr><td><code>role</code></td><td data-en="Human-readable role" data-tr="Okunabilir rol">Human-readable role</td></tr>
+            <tr><td><code>model</code></td><td data-en="opus / sonnet / haiku" data-tr="opus / sonnet / haiku">opus / sonnet / haiku</td></tr>
+            <tr><td><code>skills</code></td><td data-en="For auto task assignment" data-tr="Otomatik gorev atamasi icin">For auto task assignment</td></tr>
+            <tr><td><code>is_lead</code></td><td data-en="Exactly one must be true" data-tr="Tam olarak biri true olmali">Exactly one must be true</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARCHITECTURE ========== -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-label" data-en="Architecture" data-tr="Mimari">Architecture</div>
+    <h2 class="section-title" data-en="Clean layered architecture" data-tr="Temiz katmanli mimari">Clean layered architecture</h2>
+    <p class="section-desc" data-en="Built with Rust, tokio for async, ratatui for the TUI, and a channel-based event system." data-tr="Rust ile insa edilmis, async icin tokio, TUI icin ratatui ve kanal tabanli olay sistemi.">Built with Rust, tokio for async, ratatui for the TUI, and a channel-based event system.</p>
+
+    <div class="arch-diagram">
+                         ┌─────────────────────┐
+                         │     <span class="t-cyan t-bold">main.rs</span>          │
+                         │   CLI + TUI Loop     │
+                         └──────────┬──────────┘
+                                    │
+                  ┌─────────────────┼─────────────────┐
+                  │                                   │
+        ┌─────────▼──────────┐              ┌────────▼──────────┐
+        │   <span class="t-green t-bold">Orchestrator</span>      │              │    <span class="t-blue t-bold">TUI App</span>         │
+        │   (tokio actor)    │              │   (ratatui)       │
+        └──┬──────┬──────┬───┘              └──┬──────┬────┬───┘
+           │      │      │                     │      │    │
+      <span class="t-purple">Registry</span>  <span class="t-yellow">Router</span>  <span class="t-orange">Scheduler</span>          <span class="t-cyan">Widgets</span> <span class="t-green">Views</span> <span class="t-blue">Layout</span>
+           │      │      │                     │
+           └──────┼──────┘                  <span class="t-cyan">6 Views:</span>
+                  │                         Dashboard, Agent Detail
+             ┌────▼────┐                   Tasks, Logs, Office, Settings
+             │<span class="t-green t-bold">AgentPool</span>│
+             └────┬────┘                <span class="t-yellow">8 Widgets:</span>
+                  │                     Header, Input, Help, Status
+         ┌───────┼───────┐              AgentList, AgentPanel,
+         │       │       │              MessageLog, TaskTable
+    ┌────▼──┐┌───▼──┐┌───▼──┐
+    │<span class="t-dim">claude</span> ││<span class="t-dim">claude</span>││<span class="t-dim">claude</span>│       <span class="t-dim">Channel-based messaging:</span>
+    │<span class="t-dim"> CLI  </span> ││<span class="t-dim"> CLI  </span>││<span class="t-dim"> CLI  </span>│       <span class="t-dim">AppEvent ←→ OrchestratorCommand</span>
+    └───────┘└──────┘└──────┘</div>
+  </div>
+</section>
+
+<!-- ========== INSTALL ========== -->
+<section id="install">
+  <div class="container">
+    <div class="section-label" data-en="Installation" data-tr="Kurulum">Installation</div>
+    <h2 class="section-title" data-en="Get started in 60 seconds" data-tr="60 saniyede baslayin">Get started in 60 seconds</h2>
+
+    <div class="phase-list">
+      <div class="phase-item">
+        <div class="phase-num">1</div>
+        <div>
+          <h4 data-en="Prerequisites" data-tr="Gereksinimler">Prerequisites</h4>
+          <p data-en="Rust 1.70+ and Claude Code CLI installed and authenticated. Claude Max or Pro subscription." data-tr="Rust 1.70+ ve Claude Code CLI kurulu ve dogrulanmis. Claude Max veya Pro aboneligi.">Rust 1.70+ and Claude Code CLI installed and authenticated.</p>
+          <pre style="margin-top:8px"><code>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></pre>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-num">2</div>
+        <div>
+          <h4 data-en="Clone & Build" data-tr="Klonla & Derle">Clone & Build</h4>
+          <pre style="margin-top:8px"><code>git clone https://github.com/BirdyTheDev/claude-swarm.git
+cd claude-swarm
+cargo install --path .</code></pre>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-num">3</div>
+        <div>
+          <h4 data-en="Configure" data-tr="Yapilandir">Configure</h4>
+          <pre style="margin-top:8px"><code>cp swarm.toml.example swarm.toml
+# Edit to define your agents
+vim swarm.toml</code></pre>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-num">4</div>
+        <div>
+          <h4 data-en="Run" data-tr="Calistir">Run</h4>
+          <pre style="margin-top:8px"><code>claude-swarm --config swarm.toml
+
+# With an initial prompt:
+claude-swarm --config swarm.toml --prompt "Analyze the codebase"
+
+# With specific agents only:
+claude-swarm --config swarm.toml --agents architect,developer</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px; text-align: center;">
+      <h3 data-en="CLI Options" data-tr="CLI Secenekleri">CLI Options</h3>
+      <pre style="text-align: left; max-width: 600px; margin: 16px auto;"><code>claude-swarm [OPTIONS]
+
+  -c, --config &lt;FILE&gt;       <span class="t-dim">Config file [default: swarm.toml]</span>
+  -p, --prompt &lt;TEXT&gt;       <span class="t-dim">Initial prompt for lead agent</span>
+      --tick-rate &lt;MS&gt;      <span class="t-dim">TUI refresh rate [default: 250]</span>
+      --agents &lt;NAMES&gt;      <span class="t-dim">Comma-separated agent names</span>
+      --visible-terminals   <span class="t-dim">Open each agent in a terminal</span>
+      --log-file &lt;FILE&gt;     <span class="t-dim">Log file [default: claude-swarm.log]</span>
+      --log-level &lt;LEVEL&gt;   <span class="t-dim">Log level [default: info]</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-links">
+      <a href="https://github.com/BirdyTheDev/claude-swarm">GitHub</a>
+      <a href="https://github.com/BirdyTheDev/claude-swarm/issues">Issues</a>
+      <a href="https://github.com/BirdyTheDev/claude-swarm/blob/main/LICENSE">MIT License</a>
+    </div>
+    <p>Built with Rust, ratatui, and Claude Code CLI</p>
+    <p style="margin-top: 8px;"><span class="t-cyan">⬡</span> claude-swarm &copy; 2026</p>
+  </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+// View tab switching
+function showView(name) {
+  document.querySelectorAll('.view-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.view-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Language switching
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
