@@ -46,6 +46,8 @@
       <span class="badge"><span class="dot yellow"></span> Claude Code CLI</span>
       <span class="badge"><span class="dot green"></span> i18n EN/TR</span>
       <span class="badge"><span class="dot cyan"></span> 3 Themes</span>
+      <span class="badge"><span class="dot yellow"></span> Telegram</span>
+      <span class="badge"><span class="dot green"></span> 7 Views</span>
     </div>
 
     <div class="hero-actions">
@@ -62,7 +64,7 @@
         <span class="terminal-title">claude-swarm — my-project-swarm</span>
       </div>
       <div class="terminal-body">
-<span class="t-cyan t-bold">⬡ my-project-swarm</span>  <span class="t-dim">│</span> <span class="t-cyan t-bold">Dashboard</span> <span class="t-dim">│ Agent Detail │ Tasks │ Logs │ Office │ Settings</span>
+<span class="t-cyan t-bold">⬡ my-project-swarm</span>  <span class="t-dim">│</span> <span class="t-cyan t-bold">Dashboard</span> <span class="t-dim">│ Agent Detail │ Tasks │ Logs │ Office │ Settings │ Performance</span>
 <span class="t-dim">┌──────────────────┐ ┌─────────────────────┐ ┌──────────────────────────┐</span>
 <span class="t-dim">│</span> <span class="t-bold">Agents</span>           <span class="t-dim">│ │</span> <span class="t-cyan">Mini Panels</span>          <span class="t-dim">│ │</span> <span class="t-cyan t-bold">Focused Output</span>           <span class="t-dim">│</span>
 <span class="t-dim">│                  │ ├─────────────────────┤ │</span>                          <span class="t-dim">│</span>
@@ -131,8 +133,28 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon">🖥️</div>
-        <h3 data-en="6 View Tabs" data-tr="6 Gorunum Sekmesi">6 View Tabs</h3>
-        <p data-en="Dashboard (3-column overview), Agent Detail (full output), Tasks (lifecycle tracking), Logs (categorized), Office (meetings), Settings (preferences)." data-tr="Panel (3 sutunlu genel bakis), Ajan Detay (tam cikti), Gorevler (yasam dongusu), Loglar (kategorili), Ofis (toplantilar), Ayarlar (tercihler).">Dashboard, Agent Detail, Tasks, Logs, Office, Settings — each with a dedicated view.</p>
+        <h3 data-en="7 View Tabs" data-tr="7 Gorunum Sekmesi">7 View Tabs</h3>
+        <p data-en="Dashboard, Agent Detail, Tasks, Logs, Office, Settings, Performance — each with a dedicated view for different workflows." data-tr="Panel, Ajan Detay, Gorevler, Loglar, Ofis, Ayarlar, Performans — her biri farkli is akislari icin ozel gorunum.">Dashboard, Agent Detail, Tasks, Logs, Office, Settings, Performance — each with a dedicated view.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3 data-en="Telegram Integration" data-tr="Telegram Entegrasyonu">Telegram Integration</h3>
+        <p data-en="Control your swarm remotely via Telegram bot. Send tasks, check agent status, get cost reports, and receive completion notifications — all from your phone." data-tr="Telegram bot uzerinden swarm'inizi uzaktan kontrol edin. Gorev gonderin, ajan durumu sorgulatin, maliyet raporu alin ve tamamlanma bildirimleri alin — hepsi telefonunuzdan.">Control your swarm remotely via Telegram bot. Send tasks, check status, get notifications — all from your phone.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏰</div>
+        <h3 data-en="Scheduled Tasks" data-tr="Zamanli Gorevler">Scheduled Tasks</h3>
+        <p data-en="Schedule commands to fire at specific times with :schedule HH:MM. Uses local time, 24-hour format. View pending schedules with :schedules." data-tr=":schedule SS:DD ile komutlari belirli saatlere zamanlayin. Yerel saat, 24 saat formati. :schedules ile bekleyen zamanlari gorun.">Schedule commands with <code>:schedule 09:00 :t dev fix bug</code>. Local time, 24h format.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 data-en="Performance View" data-tr="Performans Gorunumu">Performance View</h3>
+        <p data-en="Monitor process resources (own + claude CLI memory/CPU), aggregate stats (cost/hr, success rate, avg tokens), and per-agent token usage in real-time." data-tr="Surec kaynaklarini (kendi + claude CLI bellek/CPU), toplu istatistikleri (maliyet/saat, basari orani), ve ajan basina token kullanimini gercek zamanli izleyin.">Process resources, aggregate stats (cost/hr, success rate), per-agent token usage — all in real-time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔨</div>
+        <h3 data-en="Build Verification" data-tr="Build Dogrulama">Build Verification</h3>
+        <p data-en="Automatically verify builds after agent completion. Auto-detects build system (Cargo, npm, Make, pytest, Go). Retries on failure with configurable max retries." data-tr="Ajan tamamlandiktan sonra build'leri otomatik dogrulayin. Build sistemini otomatik tespit eder (Cargo, npm, Make, pytest, Go). Hata durumunda yapilandirmali yeniden deneme.">Auto-verify builds after agent completion. Auto-detect build system. Retry on failure.</p>
       </div>
     </div>
   </div>
@@ -142,8 +164,8 @@
 <section id="views">
   <div class="container">
     <div class="section-label">Views</div>
-    <h2 class="section-title" data-en="Six dedicated views for every workflow" data-tr="Her is akisi icin alti ozel gorunum">Six dedicated views for every workflow</h2>
-    <p class="section-desc" data-en="Navigate between views with number keys (1-6) or Tab. Each view is designed for a specific workflow." data-tr="Sayi tuslariyla (1-6) veya Tab ile gorunumler arasinda gezinin. Her gorunum belirli bir is akisi icin tasarlanmistir.">Navigate between views with number keys (1-6) or Tab.</p>
+    <h2 class="section-title" data-en="Seven dedicated views for every workflow" data-tr="Her is akisi icin yedi ozel gorunum">Seven dedicated views for every workflow</h2>
+    <p class="section-desc" data-en="Navigate between views with number keys (1-7) or Tab. Each view is designed for a specific workflow." data-tr="Sayi tuslariyla (1-7) veya Tab ile gorunumler arasinda gezinin. Her gorunum belirli bir is akisi icin tasarlanmistir.">Navigate between views with number keys (1-7) or Tab.</p>
 
     <div class="views-tabs">
       <button class="view-tab active" onclick="showView('dashboard')">1 Dashboard</button>
@@ -152,6 +174,7 @@
       <button class="view-tab" onclick="showView('logs')">4 Logs</button>
       <button class="view-tab" onclick="showView('office')">5 Office</button>
       <button class="view-tab" onclick="showView('settings')">6 Settings</button>
+      <button class="view-tab" onclick="showView('performance')">7 Performance</button>
     </div>
 
     <div class="view-content active" id="view-dashboard"><span class="t-dim">┌ Agents ─────────┐┌ Mini Panels ─────────┐┌ Focused Output ──────────┐</span>
@@ -228,19 +251,41 @@
     <div class="view-content" id="view-settings"><span class="t-cyan t-bold">┌ Settings ────────────────────────────────────────────────────────────┐</span>
 <span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>  <span class="t-cyan t-bold">▸ Language          </span> <span class="t-cyan">[English]</span>                                     <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>    Theme              <span class="t-dim">[Dark]</span>                                        <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>    Log Verbosity      <span class="t-dim">[Normal]</span>                                      <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>    Terminal App       <span class="t-dim">[Terminal]</span>                                     <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>    History Size       <span class="t-dim">[50]</span>                                          <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>    Meeting Timeout    <span class="t-dim">[10s]</span>                                         <span class="t-dim">│</span>
-<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Auto README        <span class="t-dim">[OFF]</span>                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Auto Verify        <span class="t-dim">[OFF]</span>                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Verify Command     <span class="t-dim">[auto-detect]</span>                                 <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Max Retries        <span class="t-dim">[3]</span>                                           <span class="t-dim">│</span>
+<span class="t-dim">│</span>    Telegram           <span class="t-dim">[OFF]</span>                                         <span class="t-dim">│</span>
+<span class="t-dim">│</span>    TG Bot Token       <span class="t-dim">[****]</span>                                        <span class="t-dim">│</span>
+<span class="t-dim">│</span>    TG Chat ID         <span class="t-dim">[—]</span>                                           <span class="t-dim">│</span>
 <span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
 <span class="t-dim">│</span>  <span class="t-dim">Enter: toggle/edit  s: save  j/k: navigate</span>                        <span class="t-dim">│</span>
+<span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
+
+    <div class="view-content" id="view-performance"><span class="t-cyan t-bold">┌ Performance ─────────────────────────────────────────────────────────┐</span>
+<span class="t-dim">│</span> <span class="t-bold"> Process Resources</span>                                                    <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green t-bold">claude-swarm  </span> <span class="t-cyan">Mem:</span> 42.3 MB   <span class="t-cyan">CPU:</span> 1.2%                             <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-yellow t-bold">claude CLI x3 </span> <span class="t-cyan">Mem:</span> 512.7 MB  <span class="t-cyan">CPU:</span> 34.5%                            <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-bold">Total          </span><span class="t-cyan">Mem:</span> 555.0 MB  <span class="t-cyan">CPU:</span> 35.7%  <span class="t-cyan">Procs:</span> 4               <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span> <span class="t-bold"> Aggregate Stats</span>                                                     <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">Tokens:</span> 45230  <span class="t-cyan">Cost:</span> <span class="t-yellow">$0.3741</span>  <span class="t-cyan">Cost/hr:</span> <span class="t-yellow">$0.1870</span>                   <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">Avg tokens/agent:</span> 15077  <span class="t-cyan">Tasks:</span> <span class="t-green">5 done</span> / <span class="t-red">1 failed</span>  <span class="t-cyan">Success:</span> 83%  <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span> <span class="t-bold"> Token Usage per Agent</span>                                               <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-bold">Agent       Input    Output   Cache Read  Cost</span>                      <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">architect</span>   8200     3100     12000       <span class="t-yellow">$0.1520</span>                   <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">developer</span>   12400    5830     18000       <span class="t-yellow">$0.1821</span>                   <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-green">reviewer</span>    5200     2500     6000        <span class="t-yellow">$0.0400</span>                   <span class="t-dim">│</span>
+<span class="t-dim">│</span>                                                                      <span class="t-dim">│</span>
+<span class="t-dim">│</span> <span class="t-bold"> Swarm Health</span>                                                        <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">Uptime:</span> 2h 0m 15s  <span class="t-cyan">Messages:</span> 12  <span class="t-cyan">Agents:</span> <span class="t-green">1 idle</span> / <span class="t-yellow">2 working</span>     <span class="t-dim">│</span>
+<span class="t-dim">│</span>  <span class="t-cyan">Tasks:</span> Active: 1, Completed: 5                                      <span class="t-dim">│</span>
 <span class="t-dim">└──────────────────────────────────────────────────────────────────────┘</span></div>
   </div>
 </section>
@@ -260,7 +305,7 @@
           <tbody>
             <tr><td><kbd>j</kbd> / <kbd>↓</kbd></td><td data-en="Select next agent" data-tr="Sonraki ajani sec">Select next agent</td></tr>
             <tr><td><kbd>k</kbd> / <kbd>↑</kbd></td><td data-en="Select previous agent" data-tr="Onceki ajani sec">Select previous agent</td></tr>
-            <tr><td><kbd>1</kbd>-<kbd>6</kbd></td><td data-en="Switch view tab" data-tr="Gorunum sekmesi degistir">Switch view tab</td></tr>
+            <tr><td><kbd>1</kbd>-<kbd>7</kbd></td><td data-en="Switch view tab" data-tr="Gorunum sekmesi degistir">Switch view tab</td></tr>
             <tr><td><kbd>Tab</kbd></td><td data-en="Cycle tabs" data-tr="Sekmeler arasi gez">Cycle tabs</td></tr>
             <tr><td><kbd>Enter</kbd></td><td data-en="Agent detail / toggle setting" data-tr="Ajan detay / ayar degistir">Agent detail / toggle setting</td></tr>
             <tr><td><kbd>?</kbd></td><td data-en="Help overlay" data-tr="Yardim paneli">Help overlay</td></tr>
@@ -277,6 +322,11 @@
             <tr><td><kbd>:bc &lt;msg&gt;</kbd></td><td data-en="Broadcast to all agents" data-tr="Tum ajanlara yayin">Broadcast to all agents</td></tr>
             <tr><td><kbd>:send &lt;a&gt; &lt;m&gt;</kbd></td><td data-en="Inter-agent message" data-tr="Ajanlar arasi mesaj">Inter-agent message</td></tr>
             <tr><td><kbd>:stop &lt;a&gt;</kbd></td><td data-en="Stop an agent" data-tr="Ajani durdur">Stop an agent</td></tr>
+            <tr><td><kbd>:soul &lt;a&gt; &lt;t&gt;</kbd></td><td data-en="Set agent soul/personality" data-tr="Ajan ruhunu ayarla">Set agent soul</td></tr>
+            <tr><td><kbd>:status</kbd></td><td data-en="Agent status (Telegram)" data-tr="Ajan durumu (Telegram)">Agent status (TG)</td></tr>
+            <tr><td><kbd>:cost</kbd></td><td data-en="Cost report (Telegram)" data-tr="Maliyet raporu (Telegram)">Cost report (TG)</td></tr>
+            <tr><td><kbd>:schedule</kbd></td><td data-en="Schedule command at HH:MM" data-tr="SS:DD'de komut zamanla">Schedule at HH:MM</td></tr>
+            <tr><td><kbd>:schedules</kbd></td><td data-en="List pending schedules" data-tr="Bekleyen zamanlari listele">List schedules</td></tr>
             <tr><td><kbd>p</kbd></td><td data-en="Prompt mode (selected agent)" data-tr="Istem modu (secili ajan)">Prompt mode (selected agent)</td></tr>
           </tbody>
         </table>
@@ -337,7 +387,10 @@
 <span class="t-purple">log_verbosity</span> = <span class="t-green">"normal"</span> <span class="t-dim"># minimal | normal | detailed</span>
 <span class="t-purple">terminal_app</span> = <span class="t-green">"Terminal"</span>
 <span class="t-purple">input_history_size</span> = <span class="t-orange">50</span>
-<span class="t-purple">meeting_timeout_secs</span> = <span class="t-orange">10</span></code></pre>
+<span class="t-purple">meeting_timeout_secs</span> = <span class="t-orange">10</span>
+<span class="t-purple">auto_verify</span> = <span class="t-orange">false</span>     <span class="t-dim"># auto build check</span>
+<span class="t-purple">telegram_enabled</span> = <span class="t-orange">false</span>
+<span class="t-purple">telegram_bot_token</span> = <span class="t-green">""</span></code></pre>
 
         <h3 style="margin-top: 32px;" data-en="Agent Config Fields" data-tr="Ajan Yapilandirma Alanlari">Agent Config Fields</h3>
         <table class="key-table">
@@ -377,9 +430,9 @@
            │      │      │                     │      │    │
       <span class="t-purple">Registry</span>  <span class="t-yellow">Router</span>  <span class="t-orange">Scheduler</span>          <span class="t-cyan">Widgets</span> <span class="t-green">Views</span> <span class="t-blue">Layout</span>
            │      │      │                     │
-           └──────┼──────┘                  <span class="t-cyan">6 Views:</span>
-                  │                         Dashboard, Agent Detail
-             ┌────▼────┐                   Tasks, Logs, Office, Settings
+           └──────┼──────┘                  <span class="t-cyan">7 Views:</span>
+                  │                         Dashboard, Agent Detail, Tasks
+             ┌────▼────┐                   Logs, Office, Settings, Performance
              │<span class="t-green t-bold">AgentPool</span>│
              └────┬────┘                <span class="t-yellow">8 Widgets:</span>
                   │                     Header, Input, Help, Status
