@@ -7,13 +7,14 @@ use tracing_subscriber::EnvFilter;
 
 use claude_swarm::config::{CliArgs, Settings, SwarmConfig};
 use claude_swarm::orchestrator::Orchestrator;
+use claude_swarm::telegram::TelegramBridge;
 use claude_swarm::tui::app::App;
 use claude_swarm::tui::event_handler::EventHandler;
 use claude_swarm::tui::terminal;
 use claude_swarm::tui::layout;
 use claude_swarm::tui::theme;
 use claude_swarm::tui::widgets::{command_input, header_bar, help_overlay, status_bar};
-use claude_swarm::tui::views::{agent_detail, dashboard, log_view, office_view, settings_view, task_view};
+use claude_swarm::tui::views::{agent_detail, dashboard, log_view, office_view, settings_view, task_view, performance_view};
 use claude_swarm::types::agent::AgentState;
 use claude_swarm::types::event::{AppEvent, OrchestratorCommand, UiMode, ViewTab};
 
@@ -82,13 +83,36 @@ async fn main() -> Result<()> {
 
     // Create app
     let swarm_name = config.name.clone();
-    let mut app = App::new(swarm_name, cmd_tx.clone(), settings);
+    let mut app = App::new(swarm_name, cmd_tx.clone(), settings, event_tx.clone());
     app.init_agents(agent_states);
 
     // Setup persistent conversation log
     let conversation_log_path = std::path::PathBuf::from("claude-swarm-conversation.log");
     app.set_conversation_log(&conversation_log_path);
     info!(path = %conversation_log_path.display(), "conversation log enabled");
+
+    // Spawn Telegram bridge if enabled
+    if app.settings.telegram_enabled && !app.settings.telegram_bot_token.is_empty() {
+        let (notify_tx, notify_rx) = mpsc::channel(128);
+        app.telegram_notify_tx = Some(notify_tx);
+        let chat_id: Option<i64> = if app.settings.telegram_chat_id.is_empty() {
+            None
+        } else {
+            app.settings.telegram_chat_id.parse().ok()
+        };
+        let bridge = TelegramBridge::new(
+            app.settings.telegram_bot_token.clone(),
+            chat_id,
+            cmd_tx.clone(),
+            event_tx.clone(),
+            notify_rx,
+        );
+        app.telegram_pairing_code = bridge.pairing_code().map(|s| s.to_string());
+        tokio::spawn(async move {
+            bridge.run().await;
+        });
+        info!("telegram bridge spawned");
+    }
 
     // Spawn orchestrator
     let mut orchestrator = Orchestrator::new(config, event_tx.clone(), cmd_rx);
@@ -216,6 +240,15 @@ async fn main() -> Result<()> {
                         app.settings_selected,
                         app.settings_editing,
                         &app.settings_edit_buffer,
+                        app.telegram_pairing_code.as_deref(),
+                    );
+                }
+                ViewTab::Performance => {
+                    performance_view::render(
+                        frame,
+                        content_area,
+                        &agents,
+                        &app,
                     );
                 }
             }

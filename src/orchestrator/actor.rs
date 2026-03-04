@@ -144,6 +144,41 @@ impl Orchestrator {
             OrchestratorCommand::TeamTask { description } => {
                 self.start_team_task(description).await;
             }
+            OrchestratorCommand::Broadcast { prompt } => {
+                let agent_ids: Vec<AgentId> = self.registry.ordered_ids().to_vec();
+                for agent_id in agent_ids {
+                    self.registry.set_status(&agent_id, AgentStatus::Working);
+                    if let Err(e) = self.pool.send_prompt(&agent_id, &prompt) {
+                        error!(agent = %agent_id, "broadcast prompt failed: {e}");
+                    }
+                }
+            }
+            OrchestratorCommand::PromptLead { prompt } => {
+                let lead_id = self.config.lead_agent_id();
+                self.registry.set_status(&lead_id, AgentStatus::Working);
+                if let Err(e) = self.pool.send_prompt(&lead_id, &prompt) {
+                    error!(agent = %lead_id, "prompt lead failed: {e}");
+                }
+            }
+            OrchestratorCommand::SetSoul { agent_id, soul } => {
+                // Truncate to 2000 chars to prevent CLI arg overflow
+                let soul = if soul.len() > 2000 {
+                    soul[..2000].to_string()
+                } else {
+                    soul
+                };
+                self.pool.set_soul(&agent_id, soul.clone());
+                if let Some(state) = self.registry.get_mut(&agent_id) {
+                    state.config.soul = soul.clone();
+                }
+                let _ = self
+                    .event_tx
+                    .send(AppEvent::SoulUpdated {
+                        agent_id,
+                        soul,
+                    })
+                    .await;
+            }
             OrchestratorCommand::SpawnAgent { .. } => {}
             OrchestratorCommand::Shutdown => {}
         }

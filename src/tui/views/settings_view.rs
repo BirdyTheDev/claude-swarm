@@ -17,6 +17,7 @@ pub fn render(
     selected: usize,
     editing: bool,
     edit_buffer: &str,
+    pairing_code: Option<&str>,
 ) {
     let block = Block::default()
         .title(" Settings ")
@@ -26,6 +27,15 @@ pub fn render(
 
     let inner = block.inner(area);
     frame.render_widget(block, area);
+
+    // Determine Chat ID display value
+    let chat_id_value = if !settings.telegram_chat_id.is_empty() {
+        format!("Paired ({})", settings.telegram_chat_id)
+    } else if let Some(code) = pairing_code {
+        format!("Pairing: {code}")
+    } else {
+        "Not paired".to_string()
+    };
 
     let rows = vec![
         SettingRow {
@@ -57,6 +67,45 @@ pub fn render(
             label: "Meeting Timeout",
             value: format!("{}s", settings.meeting_timeout_secs),
             editable_text: true,
+        },
+        SettingRow {
+            label: "Auto README",
+            value: if settings.auto_readme { "On".to_string() } else { "Off".to_string() },
+            editable_text: false,
+        },
+        SettingRow {
+            label: "Auto Verify",
+            value: if settings.auto_verify { "On".to_string() } else { "Off".to_string() },
+            editable_text: false,
+        },
+        SettingRow {
+            label: "Verify Command",
+            value: if settings.verify_command.is_empty() {
+                "(auto-detect)".to_string()
+            } else {
+                settings.verify_command.clone()
+            },
+            editable_text: true,
+        },
+        SettingRow {
+            label: "Max Retries",
+            value: settings.max_verify_retries.to_string(),
+            editable_text: true,
+        },
+        SettingRow {
+            label: "Telegram",
+            value: if settings.telegram_enabled { "On".to_string() } else { "Off".to_string() },
+            editable_text: false,
+        },
+        SettingRow {
+            label: "TG Bot Token",
+            value: settings.masked_bot_token(),
+            editable_text: true,
+        },
+        SettingRow {
+            label: "TG Chat ID",
+            value: chat_id_value,
+            editable_text: false,
         },
     ];
 

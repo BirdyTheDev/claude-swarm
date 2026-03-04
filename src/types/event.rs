@@ -57,6 +57,49 @@ pub enum AppEvent {
         description: String,
     },
 
+    // Telegram notification (for system log)
+    TelegramNotify {
+        text: String,
+    },
+
+    // Telegram pairing completed
+    TelegramPaired {
+        chat_id: String,
+    },
+
+    // Soul updated
+    SoulUpdated {
+        agent_id: AgentId,
+        soul: String,
+    },
+
+    // Build verification result
+    VerifyResult {
+        agent_id: AgentId,
+        success: bool,
+        output: Option<String>,
+    },
+
+    // Telegram query events
+    TelegramStatusRequest,
+    TelegramCostRequest,
+
+    // Telegram task tracking — route through app so Tasks view is updated
+    TelegramTaskPrompt {
+        agent_id: AgentId,
+        prompt: String,
+    },
+    TelegramTeamTask {
+        description: String,
+    },
+
+    // Telegram scheduled tasks
+    TelegramSchedule {
+        time: String,
+        command: String,
+    },
+    TelegramSchedulesList,
+
     // System events
     Shutdown,
 }
@@ -94,6 +137,16 @@ pub enum OrchestratorCommand {
     TeamTask {
         description: String,
     },
+    Broadcast {
+        prompt: String,
+    },
+    PromptLead {
+        prompt: String,
+    },
+    SetSoul {
+        agent_id: AgentId,
+        soul: String,
+    },
     Shutdown,
 }
 
@@ -117,6 +170,7 @@ pub enum ViewTab {
     Logs,
     Office,
     Settings,
+    Performance,
 }
 
 impl ViewTab {
@@ -128,6 +182,7 @@ impl ViewTab {
             Self::Logs => "Logs",
             Self::Office => "Office",
             Self::Settings => "Settings",
+            Self::Performance => "Performance",
         }
     }
 
@@ -139,6 +194,7 @@ impl ViewTab {
             ViewTab::Logs,
             ViewTab::Office,
             ViewTab::Settings,
+            ViewTab::Performance,
         ]
     }
 }

@@ -1,3 +1,10 @@
 /target
 *.log
 .DS_Store
+.env
+*.pem
+*.key
+settings.toml
+build.sh
+compile_check.py
+/opencv

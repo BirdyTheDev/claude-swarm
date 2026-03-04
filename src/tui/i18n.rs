@@ -64,6 +64,15 @@ pub struct Messages {
     pub history_size_label: &'static str,
     pub meeting_timeout_label: &'static str,
     pub save_button: &'static str,
+
+    // Auto README
+    pub auto_readme_generating: &'static str,
+
+    // Telegram
+    pub telegram_connected: &'static str,
+    pub telegram_error: &'static str,
+    pub telegram_paired: &'static str,
+    pub telegram_pairing_code_msg: &'static str,
 }
 
 static EN: Messages = Messages {
@@ -117,6 +126,13 @@ static EN: Messages = Messages {
     history_size_label: "History Size",
     meeting_timeout_label: "Meeting Timeout",
     save_button: "[Save] (s)",
+
+    auto_readme_generating: "Generating README via lead agent...",
+
+    telegram_connected: "Telegram bridge connected",
+    telegram_error: "Telegram error: {}",
+    telegram_paired: "Telegram paired with chat {}",
+    telegram_pairing_code_msg: "Pairing code: {} — send to your Telegram bot",
 };
 
 static TR: Messages = Messages {
@@ -170,6 +186,13 @@ static TR: Messages = Messages {
     history_size_label: "Geçmiş Boyutu",
     meeting_timeout_label: "Toplantı Zaman Aşımı",
     save_button: "[Kaydet] (s)",
+
+    auto_readme_generating: "Lead ajan ile README oluşturuluyor...",
+
+    telegram_connected: "Telegram köprüsü bağlandı",
+    telegram_error: "Telegram hatası: {}",
+    telegram_paired: "Telegram eşleştirildi, chat {}",
+    telegram_pairing_code_msg: "Eşleştirme kodu: {} — Telegram botunuza gönderin",
 };
 
 impl Messages {

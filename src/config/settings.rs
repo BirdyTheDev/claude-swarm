@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum Language {
+    #[default]
     En,
     Tr,
 }
@@ -24,9 +25,10 @@ impl Language {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum ThemeName {
+    #[default]
     Dark,
     Light,
     HighContrast,
@@ -50,10 +52,11 @@ impl ThemeName {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum LogVerbosity {
     Minimal,
+    #[default]
     Normal,
     Detailed,
 }
@@ -78,12 +81,48 @@ impl LogVerbosity {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Settings {
+    #[serde(default)]
     pub language: Language,
+    #[serde(default)]
     pub theme: ThemeName,
+    #[serde(default)]
     pub log_verbosity: LogVerbosity,
+    #[serde(default = "default_terminal_app")]
     pub terminal_app: String,
+    #[serde(default = "default_history_size")]
     pub input_history_size: usize,
+    #[serde(default = "default_meeting_timeout")]
     pub meeting_timeout_secs: u64,
+    #[serde(default)]
+    pub auto_readme: bool,
+    #[serde(default)]
+    pub auto_verify: bool,
+    #[serde(default)]
+    pub verify_command: String,
+    #[serde(default = "default_max_verify_retries")]
+    pub max_verify_retries: u32,
+    #[serde(default)]
+    pub telegram_enabled: bool,
+    #[serde(default)]
+    pub telegram_bot_token: String,
+    #[serde(default)]
+    pub telegram_chat_id: String,
+}
+
+fn default_terminal_app() -> String {
+    "Terminal".to_string()
+}
+
+fn default_history_size() -> usize {
+    50
+}
+
+fn default_meeting_timeout() -> u64 {
+    10
+}
+
+fn default_max_verify_retries() -> u32 {
+    3
 }
 
 impl Default for Settings {
@@ -92,14 +131,31 @@ impl Default for Settings {
             language: Language::En,
             theme: ThemeName::Dark,
             log_verbosity: LogVerbosity::Normal,
-            terminal_app: "Terminal".to_string(),
-            input_history_size: 50,
-            meeting_timeout_secs: 10,
+            terminal_app: default_terminal_app(),
+            input_history_size: default_history_size(),
+            meeting_timeout_secs: default_meeting_timeout(),
+            auto_readme: false,
+            auto_verify: false,
+            verify_command: String::new(),
+            max_verify_retries: default_max_verify_retries(),
+            telegram_enabled: false,
+            telegram_bot_token: String::new(),
+            telegram_chat_id: String::new(),
         }
     }
 }
 
 impl Settings {
+    /// Returns the bot token with all but the last 4 characters masked.
+    pub fn masked_bot_token(&self) -> String {
+        let token = &self.telegram_bot_token;
+        if token.len() <= 4 {
+            return "****".to_string();
+        }
+        let visible = &token[token.len() - 4..];
+        format!("****{visible}")
+    }
+
     fn config_dir() -> Option<PathBuf> {
         dirs::home_dir().map(|h| h.join(".claude-swarm"))
     }

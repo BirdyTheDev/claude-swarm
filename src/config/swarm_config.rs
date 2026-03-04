@@ -30,6 +30,9 @@ pub struct AgentToml {
     pub system_prompt: String,
 
     #[serde(default)]
+    pub soul: String,
+
+    #[serde(default)]
     pub model: Option<String>,
 
     #[serde(default)]
@@ -109,6 +112,7 @@ impl SwarmConfig {
                     name: a.name.clone(),
                     role: a.role.clone(),
                     system_prompt: a.system_prompt.clone(),
+                    soul: a.soul.clone(),
                     model: a.model.clone(),
                     skills: a.skills.clone(),
                     allowed_tools: a.allowed_tools.clone(),

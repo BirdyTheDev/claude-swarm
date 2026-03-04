@@ -9,6 +9,7 @@ fn test_config(name: &str, skills: Vec<&str>) -> AgentConfig {
         name: name.to_string(),
         role: "test".to_string(),
         system_prompt: String::new(),
+        soul: String::new(),
         model: None,
         skills: skills.into_iter().map(String::from).collect(),
         allowed_tools: Vec::new(),

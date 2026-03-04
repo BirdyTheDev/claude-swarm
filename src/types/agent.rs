@@ -47,6 +47,7 @@ pub struct AgentConfig {
     pub name: String,
     pub role: String,
     pub system_prompt: String,
+    pub soul: String,
     pub model: Option<String>,
     pub skills: Vec<String>,
     pub allowed_tools: Vec<String>,
@@ -72,9 +73,16 @@ impl AgentConfig {
             args.push(sid.to_string());
         }
 
-        if !self.system_prompt.is_empty() {
+        let effective_prompt = if !self.soul.is_empty() && !self.system_prompt.is_empty() {
+            format!("{}\n\n{}", self.soul, self.system_prompt)
+        } else if !self.soul.is_empty() {
+            self.soul.clone()
+        } else {
+            self.system_prompt.clone()
+        };
+        if !effective_prompt.is_empty() {
             args.push("--system-prompt".to_string());
-            args.push(self.system_prompt.clone());
+            args.push(effective_prompt);
         }
 
         if let Some(ref model) = self.model {

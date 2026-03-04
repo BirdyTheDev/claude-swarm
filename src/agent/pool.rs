@@ -62,6 +62,15 @@ impl AgentPool {
         self.agents.remove(agent_id);
     }
 
+    pub fn set_soul(&mut self, agent_id: &AgentId, soul: String) -> bool {
+        if let Some(handle) = self.agents.get_mut(agent_id) {
+            handle.config.soul = soul;
+            true
+        } else {
+            false
+        }
+    }
+
     pub fn get(&self, agent_id: &AgentId) -> Option<&AgentHandle> {
         self.agents.get(agent_id)
     }
